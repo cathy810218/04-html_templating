@@ -3,18 +3,24 @@
 var articles = [];
 
 function Article (rawDataObj) {
-  this.author = rawDataObj.author;
-  this.authorUrl = rawDataObj.authorUrl;
-  this.title = rawDataObj.title;
-  this.category = rawDataObj.category;
-  this.body = rawDataObj.body;
-  this.publishedOn = rawDataObj.publishedOn;
+  // this.author = rawDataObj.author;
+  // this.authorUrl = rawDataObj.authorUrl;
+  // this.title = rawDataObj.title;
+  // this.category = rawDataObj.category;
+  // this.body = rawDataObj.body;
+  // this.publishedOn = rawDataObj.publishedOn;
+  for (var key in rawDataObj) {
+    this[key] = rawDataObj[key];
+  }
 }
 
 Article.prototype.toHtml = function() {
   // TODO: Use handlebars to render your articles.
   //       - Get your template from the DOM.
   //       - Now "compile" your template with Handlebars.
+  var template = $('#article-template').html();
+  var templateRender = Handlebars.compile(template);
+
 
   // REVIEW: If your template will use properties that aren't on the object yet, add them.
   //   Since your template can't hold any JS logic, we need to execute the logic here.
@@ -24,7 +30,7 @@ Article.prototype.toHtml = function() {
   this.publishStatus = this.publishedOn ? `published ${this.daysAgo} days ago` : '(draft)';
 
   // TODO: Use the function that Handlebars gave you to return your filled-in html template for THIS article.
-
+  return templateRender(this);
 };
 
 rawData.sort(function(a,b) {
